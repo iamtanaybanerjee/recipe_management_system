@@ -10,4 +10,13 @@ const createRecipe = async (body) => {
   }
 };
 
-module.exports = { createRecipe };
+const getRecipes = async () => {
+  try {
+    const recipes = await Recipe.find();
+    return recipes;
+  } catch (error) {
+    throw error;
+  }
+};
+
+module.exports = { createRecipe, getRecipes };

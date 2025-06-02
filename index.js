@@ -10,7 +10,6 @@ app.use(express.json());
 app.use(cors());
 
 app.use("/recipe", recipeRoutes);
-//app.post("/recipe", addRecipe);
 
 initializeDB();
 
