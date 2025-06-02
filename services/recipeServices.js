@@ -10,7 +10,7 @@ const createRecipe = async (body) => {
   }
 };
 
-const getRecipes = async () => {
+const fetchAllRecipes = async () => {
   try {
     const recipes = await Recipe.find();
     return recipes;
@@ -19,4 +19,38 @@ const getRecipes = async () => {
   }
 };
 
-module.exports = { createRecipe, getRecipes };
+const getRecipe = async (title) => {
+  try {
+    const recipe = await Recipe.findOne({ title: title });
+
+    if (!recipe) return {};
+
+    return { message: "recipe received", recipe };
+  } catch (error) {
+    throw error;
+  }
+};
+
+const fetchRecipes = async (author, difficulty) => {
+  try {
+    let recipes;
+    if (author && difficulty) {
+      recipes = await Recipe.find({
+        author: author,
+        difficulty: difficulty,
+      });
+    } else if (difficulty) {
+      recipes = await Recipe.find({
+        difficulty: { $regex: new RegExp(`^${difficulty}$`, "i") },
+      });
+    } else {
+      recipes = await Recipe.find({ author: author });
+    }
+
+    return recipes;
+  } catch (error) {
+    throw error;
+  }
+};
+
+module.exports = { createRecipe, fetchAllRecipes, getRecipe, fetchRecipes };
