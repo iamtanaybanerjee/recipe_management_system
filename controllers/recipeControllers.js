@@ -5,6 +5,7 @@ const {
   fetchRecipes,
   updateARecipe,
   updateARecipeByTitle,
+  deleteSpecificRecipe,
 } = require("../services/recipeServices");
 const {
   validateTitle,
@@ -114,6 +115,19 @@ const updateRecipeByTitle = async (req, res) => {
   }
 };
 
+const deleteRecipe = async (req, res) => {
+  const recipeId = req.params.id;
+  try {
+    const error = await validateRecipeId(recipeId);
+    if (error) return res.status(404).json({ error });
+
+    await deleteSpecificRecipe(recipeId);
+    return res.status(200).json({ message: "Deleted recipe successfully!" });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   addRecipe,
   getAllRecipes,
@@ -121,4 +135,5 @@ module.exports = {
   getRecipes,
   updateRecipe,
   updateRecipeByTitle,
+  deleteRecipe,
 };

@@ -6,6 +6,7 @@ const {
   getRecipes,
   updateRecipe,
   updateRecipeByTitle,
+  deleteRecipe,
 } = require("../controllers/recipeControllers");
 
 const router = express.Router();
@@ -16,5 +17,6 @@ router.get("/get_recipe", getRecipeByTitle);
 router.get("/get_recipes", getRecipes);
 router.put("/update_recipe/:id", updateRecipe);
 router.put("/update_recipe_by_title/:title", updateRecipeByTitle);
+router.delete("/delete_recipe/:id", deleteRecipe);
 
 module.exports = router;

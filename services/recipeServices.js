@@ -77,6 +77,13 @@ const updateARecipeByTitle = async (title, data) => {
   }
 };
 
+const deleteSpecificRecipe = async (id) => {
+  try {
+    await Recipe.findByIdAndDelete(id);
+  } catch (error) {
+    throw error;
+  }
+};
 module.exports = {
   createRecipe,
   fetchAllRecipes,
@@ -84,4 +91,5 @@ module.exports = {
   fetchRecipes,
   updateARecipe,
   updateARecipeByTitle,
+  deleteSpecificRecipe,
 };
