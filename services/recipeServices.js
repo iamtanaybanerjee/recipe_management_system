@@ -53,4 +53,35 @@ const fetchRecipes = async (author, difficulty) => {
   }
 };
 
-module.exports = { createRecipe, fetchAllRecipes, getRecipe, fetchRecipes };
+const updateARecipe = async (recipeId, data) => {
+  try {
+    const updatedRecipe = await Recipe.findByIdAndUpdate(recipeId, data, {
+      new: true,
+    });
+    return updatedRecipe;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const updateARecipeByTitle = async (title, data) => {
+  try {
+    const updatedRecipe = await Recipe.findOneAndUpdate(
+      { title: title },
+      data,
+      { new: true }
+    );
+    return updatedRecipe;
+  } catch (error) {
+    throw error;
+  }
+};
+
+module.exports = {
+  createRecipe,
+  fetchAllRecipes,
+  getRecipe,
+  fetchRecipes,
+  updateARecipe,
+  updateARecipeByTitle,
+};

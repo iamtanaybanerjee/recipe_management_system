@@ -3,10 +3,15 @@ const {
   fetchAllRecipes,
   getRecipe,
   fetchRecipes,
+  updateARecipe,
+  updateARecipeByTitle,
 } = require("../services/recipeServices");
 const {
   validateTitle,
   validateQueryParams,
+  validateRecipeId,
+  validateBodyParams,
+  validateTitle2,
 } = require("../validations/validations");
 
 const addRecipe = async (req, res) => {
@@ -71,9 +76,49 @@ const getRecipes = async (req, res) => {
   }
 };
 
+const updateRecipe = async (req, res) => {
+  const body = req.body;
+  const recipeId = req.params.id;
+  try {
+    const error = await validateBodyParams(body);
+    if (error) return res.status(400).json({ error });
+
+    const error2 = await validateRecipeId(recipeId);
+    if (error2) return res.status(404).json({ error: error2 });
+
+    const response = await updateARecipe(recipeId, body);
+
+    return res
+      .status(200)
+      .json({ message: "Updated recipe successfully!", recipe: response });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+const updateRecipeByTitle = async (req, res) => {
+  const title = req.params.title;
+  const body = req.body;
+  try {
+    const error = await validateTitle2(title);
+    console.log(error);
+    if (error) return res.status(404).json({ error });
+
+    const response = await updateARecipeByTitle(title, body);
+
+    return res
+      .status(200)
+      .json({ message: "Updated recipe successfully!", recipe: response });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   addRecipe,
   getAllRecipes,
   getRecipeByTitle,
   getRecipes,
+  updateRecipe,
+  updateRecipeByTitle,
 };
